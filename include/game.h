@@ -8,6 +8,7 @@
 enum class GameState {
     MainMenu,
     DifficultySelect,
+    MultiplayerLobby,
     Multiplayer,
     Settings,
     Playing,
