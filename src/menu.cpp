@@ -30,4 +30,6 @@ void Menu::Draw() {
         Color textColor = (i == selectedIndex) ? YELLOW : WHITE;
         DrawText(options[i].c_str(), screenWidth / 2 - MeasureText(options[i].c_str(), 40) / 2, screenHeight / 2 + (i * 60), 40, textColor);
     }
+
+    // Draw Control keys
 }

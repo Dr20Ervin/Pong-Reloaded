@@ -8,6 +8,8 @@
 enum class GameState {
     MainMenu,
     DifficultySelect,
+    Multiplayer,
+    Settings,
     Playing,
     Paused,
     GameOver
@@ -42,9 +44,22 @@ class Paddle : public GameObject {
 public:
     float width;
     float height;
+    Texture2D texture;
 
-    Paddle(Vector2 pos, Color c, float w, float h)
+public:
+    Paddle(Vector2 pos, Color c, float w, float h, const std::string& texturePath = "")
         : GameObject(pos, c), width(w), height(h) {
+        if (!texturePath.empty()) {
+            texture = LoadTexture(texturePath.c_str());
+        } else {
+            texture = { 0 };
+        }
+    }
+
+    ~Paddle() override {
+        if (texture.id > 0) {
+            UnloadTexture(texture);
+        }
     }
 
     void Update() override;
@@ -55,9 +70,22 @@ class Ball : public GameObject {
 public:
     float radius;
     Vector2 velocity;
+    Texture2D texture;
 
-    Ball(Vector2 pos, Color c, float r)
+public:
+    Ball(Vector2 pos, Color c, float r, const std::string& texturePath = "")
         : GameObject(pos, c), radius(r), velocity({ 5.0f, 5.0f }) {
+        if (!texturePath.empty()) {
+            texture = LoadTexture(texturePath.c_str());
+        } else {
+            texture = { 0 };
+        }
+    }
+
+    ~Ball() override {
+        if (texture.id > 0) {
+            UnloadTexture(texture);
+        }
     }
 
     void Update() override;
@@ -70,8 +98,8 @@ private:
     Difficulty currentDifficulty;
 
 public:
-    CpuPaddle(Vector2 pos, Color c, float w, float h, Difficulty diff = Difficulty::Normal)
-        : Paddle(pos, c, w, h) {
+    CpuPaddle(Vector2 pos, Color c, float w, float h, Difficulty diff = Difficulty::Normal, const std::string& texturePath = "")
+        : Paddle(pos, c, w, h, texturePath) {
         SetDifficulty(diff);
     }
 
@@ -100,11 +128,11 @@ public:
     void Update() override {}
 
     void LimitMovement() {
-        if (position.y <= 0) {
-            position.y = 0;
+        if (position.y <= 20.0f) {
+            position.y = 20.0f;
         }
-        if (position.y + height >= GetScreenHeight()) {
-            position.y = GetScreenHeight() - height;
+        if (position.y + height >= GetScreenHeight() - 20.0f) {
+            position.y = GetScreenHeight() - 20.0f - height;
         }
     }
 };

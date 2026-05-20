@@ -16,6 +16,12 @@
     <Filter Include="Header Files\RayLib">
       <UniqueIdentifier>{2f179593-5e9f-4095-be57-3f12f03a9705}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\textures">
+      <UniqueIdentifier>{2d4ce555-d6fc-4e9c-a30e-eadb4c1336d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\audio">
+      <UniqueIdentifier>{5f42ff18-01e2-4266-a4e0-6dc77ba54e75}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -44,5 +50,25 @@
     <ClInclude Include="include\menu.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\ball\basic_ball_5.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="assets\textures\hud\line.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="assets\textures\paddles\basic_paddle.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="assets\textures\paddles\basic_paddle_2.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="assets\textures\spaces\basic_space.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
+    <Image Include="assets\textures\spaces\walls.png">
+      <Filter>Resource Files\textures</Filter>
+    </Image>
   </ItemGroup>
 </Project>

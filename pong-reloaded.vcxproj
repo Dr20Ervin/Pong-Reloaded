@@ -145,6 +145,14 @@
     <ClInclude Include="include\raymath.h" />
     <ClInclude Include="include\rlgl.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\textures\ball\basic_ball_5.png" />
+    <Image Include="assets\textures\hud\line.png" />
+    <Image Include="assets\textures\paddles\basic_paddle.png" />
+    <Image Include="assets\textures\paddles\basic_paddle_2.png" />
+    <Image Include="assets\textures\spaces\basic_space.png" />
+    <Image Include="assets\textures\spaces\walls.png" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
