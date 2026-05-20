@@ -2,6 +2,10 @@
 # Set default behavior to automatically normalize line endings.
 ###############################################################################
 * text=auto
+# Mark specific Raylib files as vendored to exclude from language stats
+include/raylib.h linguist-vendored
+include/raymath.h linguist-vendored
+include/rlgl.h linguist-vendored
 
 ###############################################################################
 # Set default behavior for command prompt diff.
