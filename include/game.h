@@ -7,6 +7,7 @@
 // Game States & Configurations
 enum class GameState {
     MainMenu,
+    DifficultySelect,
     Playing,
     Paused,
     GameOver
@@ -28,8 +29,6 @@ class GameObject {
 public:
     Vector2 position;
     Color color;
-
-public:
     GameObject(Vector2 pos, Color c) : position(pos), color(c) {}
     virtual ~GameObject() = default;
 

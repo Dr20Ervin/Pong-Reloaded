@@ -16,6 +16,6 @@ public:
         : title(menuTitle), options(menuOptions), selectedIndex(0) {
     }
 
-    void Update(GameState& currentState);
+    int Update();
     void Draw();
 };

@@ -48,6 +48,7 @@ int main() {
 
     GameState currentState = GameState::MainMenu;
     Menu mainMenu("PONG RELOADED", { "Start Game", "Quit" });
+    Menu difficultyMenu("SELECT DIFFICULTY", { "Easy", "Normal", "Hard", "Back" });
 
     // --- Main Game Loop ---
 
@@ -58,8 +59,41 @@ int main() {
         switch (currentState) {
         case GameState::MainMenu:
         {
-            mainMenu.Update(currentState);
+            int selected = mainMenu.Update();
+            if (selected == 0) {
+                currentState = GameState::DifficultySelect;
+            }
+            else if (selected == 1) {
+                currentState = GameState::GameOver;
+            }
             mainMenu.Draw();
+            break;
+        }
+
+        case GameState::DifficultySelect:
+        {
+            int selected = difficultyMenu.Update();
+            if (selected >= 0 && selected <= 2) {
+                if (selected == 0) {
+                    cpu.SetDifficulty(Difficulty::Easy);
+                }
+                else if (selected == 1) {
+                    cpu.SetDifficulty(Difficulty::Normal);
+                }
+                else if (selected == 2) {
+                    cpu.SetDifficulty(Difficulty::Hard);
+                }
+                
+                // Reset game session stats
+                player_score = 0;
+                cpu_score = 0;
+                ResetBall(ball, screen_width, screen_height);
+                currentState = GameState::Playing;
+            }
+            else if (selected == 3) {
+                currentState = GameState::MainMenu;
+            }
+            difficultyMenu.Draw();
             break;
         }
 
