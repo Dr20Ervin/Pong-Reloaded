@@ -21,9 +21,11 @@ enum class Difficulty {
     Hard
 };
 
-constexpr float CPU_SPEED_EASY = 3.0f;
-constexpr float CPU_SPEED_NORMAL = 5.5f;
-constexpr float CPU_SPEED_HARD = 8.0f;
+constexpr float CPU_SPEED_EASY = 180.0f;
+constexpr float CPU_SPEED_NORMAL = 330.0f;
+constexpr float CPU_SPEED_HARD = 480.0f;
+constexpr float PLAYER_SPEED = 360.0f;
+constexpr float BALL_SPEED = 420.0f;
 
 // --- Base Entities ---
 
@@ -34,7 +36,7 @@ public:
     GameObject(Vector2 pos, Color c) : position(pos), color(c) {}
     virtual ~GameObject() = default;
 
-    virtual void Update() = 0;
+    virtual bool Update() = 0;
     virtual void Draw() = 0;
 };
 
@@ -62,7 +64,7 @@ public:
         }
     }
 
-    void Update() override;
+    bool Update() override;
     void Draw() override;
 };
 
@@ -88,7 +90,7 @@ public:
         }
     }
 
-    void Update() override;
+    bool Update() override;
     void Draw() override;
 };
 
@@ -114,18 +116,21 @@ public:
 
     void Update(float ball_y) {
         float paddleCenter = position.y + (height / 2.0f);
+        float dt = GetFrameTime();
+        float moveAmount = speed * dt;
 
-        if (paddleCenter > ball_y + speed) {
-            position.y -= speed;
+        if (paddleCenter > ball_y + moveAmount) {
+            position.y -= moveAmount;
         }
-        else if (paddleCenter < ball_y - speed) {
-            position.y += speed;
+        else if (paddleCenter < ball_y - moveAmount) {
+            position.y += moveAmount;
         }
 
         LimitMovement();
+        position.x = 20.0f + 10.0f;
     }
 
-    void Update() override {}
+    bool Update() override { return false; }
 
     void LimitMovement() {
         if (position.y <= 20.0f) {

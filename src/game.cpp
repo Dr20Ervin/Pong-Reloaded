@@ -2,14 +2,14 @@
 
 // --- Paddle Implementation ---
 
-void Paddle::Update() {
-    float speed = 6.0f;
+bool Paddle::Update() {
+    float dt = GetFrameTime();
 
     if (IsKeyDown(KEY_UP)) {
-        position.y -= speed;
+        position.y -= PLAYER_SPEED * dt;
     }
     if (IsKeyDown(KEY_DOWN)) {
-        position.y += speed;
+        position.y += PLAYER_SPEED * dt;
     }
 
     // Limit movement
@@ -19,6 +19,11 @@ void Paddle::Update() {
     if (position.y + height >= GetScreenHeight() - 20.0f) {
         position.y = GetScreenHeight() - 20.0f - height;
     }
+
+    // Dynamic X position
+    position.x = GetScreenWidth() - 20.0f - 10.0f - width;
+
+    return false;
 }
 
 void Paddle::Draw() {
@@ -39,13 +44,16 @@ void Paddle::Draw() {
 
 // --- Ball Implementation ---
 
-void Ball::Update() {
-    position.x += velocity.x;
-    position.y += velocity.y;
+bool Ball::Update() {
+    float dt = GetFrameTime();
+    position.x += velocity.x * dt;
+    position.y += velocity.y * dt;
 
     if (position.y + radius >= GetScreenHeight() - 20.0f || position.y - radius <= 20.0f) {
         velocity.y *= -1;
+        return true;
     }
+    return false;
 }
 
 void Ball::Draw() {
