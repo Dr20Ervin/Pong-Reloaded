@@ -8,8 +8,13 @@ Color Dark_Green = Color{ 20, 160, 133, 255 };
 Color Light_Green = Color{ 129, 204, 184, 255 };
 Color Yellow = Color{ 243, 213, 91, 255 };
 
-int player_score = 0;
-int cpu_score = 0;
+struct ScoreBoard
+{
+    int player_score = 0;
+    int player2_score = 0;
+    int cpu_score = 0;
+};
+
 
 // Helper function to reset the ball
 void ResetBall(Ball& ball, int screenWidth, int screenHeight) {
@@ -25,7 +30,7 @@ int main() {
     std::cout << "Starting the game" << std::endl;
     const int screen_width = 1280;
     const int screen_height = 800;
-    InitWindow(screen_width, screen_height, "My Pong Game!");
+    InitWindow(screen_width, screen_height, "Pong Reloaded");
     SetTargetFPS(60);
 
     // --- Instantiate Objects using the new Constructors ---
@@ -55,8 +60,10 @@ int main() {
     GameState currentState = GameState::MainMenu;
     float sessionPlayTime = 0.0f;
     bool isPaused = false;
+    bool shouldQuit = false;
     Menu mainMenu("PONG RELOADED", { "Singleplayer", "Multiplayer", "Settings", "Quit" });
     Menu difficultyMenu("SELECT DIFFICULTY", { "Easy", "Normal", "Hard", "Back" });
+    ScoreBoard score;
 
     // --- Load Background and Wall Textures ---
     Texture2D courtBackground = LoadTexture("assets/textures/spaces/basic_space.png");
@@ -65,7 +72,7 @@ int main() {
 
     // --- Main Game Loop ---
 
-    while (WindowShouldClose() == false && currentState != GameState::GameOver) {
+    while (WindowShouldClose() == false && !shouldQuit) {
         BeginDrawing();
         ClearBackground(Dark_Green);
 
@@ -76,14 +83,14 @@ int main() {
             if (selected == 0) {
                 currentState = GameState::DifficultySelect;
             }
-            if (selected == 1) {
+            else if (selected == 1) {
                 currentState = GameState::Multiplayer;
             }
-            if (selected == 2) {
+            else if (selected == 2) {
                 currentState = GameState::Settings;
             }
             else if (selected == 3) {
-                currentState = GameState::GameOver;
+                shouldQuit = true;
             }
             mainMenu.Draw();
             break;
@@ -104,8 +111,8 @@ int main() {
                 }
                 
                 // Reset game session stats
-                player_score = 0;
-                cpu_score = 0;
+                score.player_score = 0;
+                score.cpu_score = 0;
                 sessionPlayTime = 0.0f;
                 isPaused = false;
                 ResetBall(ball, screen_width, screen_height);
@@ -125,6 +132,11 @@ int main() {
                 isPaused = !isPaused;
             }
 
+            // Force GameOver with SPACEBAR key
+            if (IsKeyPressed(KEY_SPACE)) {
+                currentState = GameState::GameOver;
+            }
+
             if (!isPaused) {
                 sessionPlayTime += GetFrameTime();
 
@@ -141,12 +153,22 @@ int main() {
                 }
 
                 if (ball.position.x + ball.radius >= screen_width - 20.0f) {
-                    cpu_score++;
-                    ResetBall(ball, screen_width, screen_height);
+                    score.cpu_score++;
+                    if (score.cpu_score >= 5) {
+                        currentState = GameState::GameOver;
+                    }
+                    else {
+                        ResetBall(ball, screen_width, screen_height);
+                    }
                 }
                 if (ball.position.x - ball.radius <= 20.0f) {
-                    player_score++;
-                    ResetBall(ball, screen_width, screen_height);
+                    score.player_score++;
+                    if (score.player_score >= 5) {
+                        currentState = GameState::GameOver;
+                    }
+                    else {
+                        ResetBall(ball, screen_width, screen_height);
+                    }
                 }
             }
 
@@ -224,8 +246,8 @@ int main() {
                 WHITE
             );
 
-            DrawText(TextFormat("%i", cpu_score), screen_width / 4 - 20, 20, 80, WHITE);
-            DrawText(TextFormat("%i", player_score), 3 * screen_width / 4 - 20, 20, 80, WHITE);
+            DrawText(TextFormat("%i", score.cpu_score), screen_width / 4 - 20, 20, 80, WHITE);
+            DrawText(TextFormat("%i", score.player_score), 3 * screen_width / 4 - 20, 20, 80, WHITE);
 
             // Draw Playtime Counter
             int minutes = (int)sessionPlayTime / 60;
@@ -249,6 +271,63 @@ int main() {
                 int pausedTextWidth = MeasureText("PAUSED", 60);
                 DrawText("PAUSED", screen_width / 2 - pausedTextWidth / 2, screen_height / 2 - 30, 60, YELLOW);
             }
+
+            break;
+        }
+        case GameState::GameOver:
+        {
+            if (IsKeyPressed(KEY_SPACE)) {
+                currentState = GameState::MainMenu;
+            }
+
+            // Draw a nice centered dark panel for game over info
+            int panelWidth = 600;
+            int panelHeight = 400;
+            int panelX = screen_width / 2 - panelWidth / 2;
+            int panelY = screen_height / 2 - panelHeight / 2;
+
+            // Semi-transparent background panel
+            DrawRectangle(panelX, panelY, panelWidth, panelHeight, Color{ 15, 15, 15, 230 });
+            DrawRectangleLines(panelX, panelY, panelWidth, panelHeight, Color{ 120, 120, 120, 255 });
+
+            // Draw "GAME OVER" header
+            int gameOverWidth = MeasureText("GAME OVER", 60);
+            DrawText("GAME OVER", screen_width / 2 - gameOverWidth / 2, panelY + 40, 60, RED);
+
+            // Determine winner text and color
+            std::string winnerText = "GAME ENDED";
+            Color winnerColor = YELLOW;
+            if (score.player_score > score.cpu_score) {
+                winnerText = "YOU WIN!";
+                winnerColor = Green;
+            }
+            else if (score.cpu_score > score.player_score) {
+                winnerText = "CPU WINS!";
+                winnerColor = RED;
+            }
+            int winnerWidth = MeasureText(winnerText.c_str(), 40);
+            DrawText(winnerText.c_str(), screen_width / 2 - winnerWidth / 2, panelY + 120, 40, winnerColor);
+
+            // Draw final scores
+            std::string playerScoreStr = "Player Score: " + std::to_string(score.player_score);
+            std::string cpuScoreStr = "CPU Score: " + std::to_string(score.cpu_score);
+            
+            int playerTextWidth = MeasureText(playerScoreStr.c_str(), 30);
+            int cpuTextWidth = MeasureText(cpuScoreStr.c_str(), 30);
+
+            DrawText(playerScoreStr.c_str(), screen_width / 2 - playerTextWidth / 2, panelY + 200, 30, WHITE);
+            DrawText(cpuScoreStr.c_str(), screen_width / 2 - cpuTextWidth / 2, panelY + 250, 30, WHITE);
+
+            // Draw playtime
+            int minutes = (int)sessionPlayTime / 60;
+            int seconds = (int)sessionPlayTime % 60;
+            std::string timeStr = "Playtime: " + std::to_string(minutes) + "m " + std::to_string(seconds) + "s";
+            int timeTextWidth = MeasureText(timeStr.c_str(), 20);
+            DrawText(timeStr.c_str(), screen_width / 2 - timeTextWidth / 2, panelY + 300, 20, LIGHTGRAY);
+
+            // Instruction to return
+            int instWidth = MeasureText("Press SPACEBAR to return to Main Menu", 20);
+            DrawText("Press SPACEBAR to return to Main Menu", screen_width / 2 - instWidth / 2, panelY + 340, 20, YELLOW);
 
             break;
         }
