@@ -4,7 +4,7 @@
 #include <string>
 #include <vector>
 
-// Game States & Configurations
+// Game states and configurations
 enum class GameState {
     MainMenu,
     DifficultySelect,
@@ -28,8 +28,60 @@ constexpr float CPU_SPEED_HARD = 480.0f;
 constexpr float PLAYER_SPEED = 360.0f;
 constexpr float BALL_SPEED = 420.0f;
 
-// --- Base Entities ---
+// Game state contexts
+struct ScoreBoard {
+    int player_score = 0;
+    int player2_score = 0;
+    int cpu_score = 0;
+};
 
+struct GameConfig {
+    int resolutionOption = 0;      // 0 = 1280x800, 1 = 1600x900, 2 = 1920x1080
+    int framerateOption = 0;       // 0 = 60 FPS, 1 = 144 FPS, 2 = VSync
+    bool isFullscreen = false;
+    int maxScoreOption = 0;        // 0 = 5, 1 = 11, 2 = 15, 3 = 21
+    int maxScore = 5;
+    bool sfxEnabled = true;
+    int selectedSettingLine = 0;   // 0 = Resolution, 1 = Framerate, 2 = Screen Mode, 3 = Score Limit, 4 = Sound, 5 = Back
+};
+
+struct GameContext {
+    GameState currentState = GameState::MainMenu;
+    float sessionPlayTime = 0.0f;
+    bool isPaused = false;
+    bool shouldQuit = false;
+    bool isMultiplayer = false;
+    bool p1Ready = false;
+    bool p2Ready = false;
+    ScoreBoard score;
+    GameConfig config;
+
+    // Asset textures and sound handles
+    Texture2D courtBackground = { 0 };
+    Texture2D wallsTexture = { 0 };
+    Texture2D lineTexture = { 0 };
+    Sound paddleHitSound = { 0 };
+    Sound wallHitSound = { 0 };
+    Sound scoreSound = { 0 };
+};
+
+// Forward declarations
+class Ball;
+class Paddle;
+class CpuPaddle;
+
+// Game state update and draw routines
+void ResetBall(Ball& ball);
+void DrawCourt(const GameContext& ctx, int screenWidth, int screenHeight);
+void UpdatePlayingState(GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle& cpu);
+void DrawPlayingState(const GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle& cpu, int screenWidth, int screenHeight);
+void UpdateMultiplayerState(GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle& cpu);
+void DrawMultiplayerState(const GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle& cpu, int screenWidth, int screenHeight);
+void UpdateGameOverState(GameContext& ctx);
+void DrawGameOverState(const GameContext& ctx, int screenWidth, int screenHeight);
+
+
+// Base entity representation
 class GameObject {
 public:
     Vector2 position;
@@ -41,15 +93,12 @@ public:
     virtual void Draw() = 0;
 };
 
-// --- Game Objects ---
-
+// Entity classes
 class Paddle : public GameObject {
 public:
     float width;
     float height;
     Texture2D texture;
-
-public:
     Paddle(Vector2 pos, Color c, float w, float h, const std::string& texturePath = "")
         : GameObject(pos, c), width(w), height(h) {
         if (!texturePath.empty()) {

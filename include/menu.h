@@ -3,8 +3,7 @@
 #include <string>
 #include <vector>
 
-// --- UI / Systems ---
-
+// Menu UI controller
 class Menu {
 private:
     std::string title;
@@ -19,3 +18,11 @@ public:
     int Update();
     void Draw();
 };
+
+// Settings and lobby routines
+void ApplyResolution(int width, int height);
+void ApplyFramerate(int option);
+void UpdateSettingsState(GameContext& ctx);
+void DrawSettingsState(const GameContext& ctx, int screenWidth, int screenHeight);
+void UpdateLobbyState(GameContext& ctx);
+void DrawLobbyState(const GameContext& ctx, int screenWidth, int screenHeight);
