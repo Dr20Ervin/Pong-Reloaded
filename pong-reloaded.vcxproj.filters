@@ -71,4 +71,18 @@
       <Filter>Resource Files\textures</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\audio\banana_wall_hit.ogg">
+      <Filter>Resource Files\audio</Filter>
+    </None>
+    <None Include="assets\audio\paddle_hit.ogg">
+      <Filter>Resource Files\audio</Filter>
+    </None>
+    <None Include="assets\audio\score.ogg">
+      <Filter>Resource Files\audio</Filter>
+    </None>
+    <None Include="assets\audio\wall_hit.ogg">
+      <Filter>Resource Files\audio</Filter>
+    </None>
+  </ItemGroup>
 </Project>

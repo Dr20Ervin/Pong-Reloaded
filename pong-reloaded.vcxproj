@@ -153,6 +153,12 @@
     <Image Include="assets\textures\spaces\basic_space.png" />
     <Image Include="assets\textures\spaces\walls.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\audio\banana_wall_hit.ogg" />
+    <None Include="assets\audio\paddle_hit.ogg" />
+    <None Include="assets\audio\score.ogg" />
+    <None Include="assets\audio\wall_hit.ogg" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
