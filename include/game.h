@@ -42,7 +42,10 @@ struct GameConfig {
     int maxScoreOption = 0;        // 0 = 5, 1 = 11, 2 = 15, 3 = 21
     int maxScore = 5;
     bool sfxEnabled = true;
-    int selectedSettingLine = 0;   // 0 = Resolution, 1 = Framerate, 2 = Screen Mode, 3 = Score Limit, 4 = Sound, 5 = Back
+    int spaceThemeOption = 0;      // 0 = Default, 1 = Galaxy, 2 = Trap
+    int ballThemeOption = 0;       // 0 = Default, 1 = Banana, 2 = Beach, 3 = Cloudy, 4 = Simple
+    int paddleThemeOption = 0;     // 0 = Default, 1 = Cloudy, 2 = CPU, 3 = Human
+    int selectedSettingLine = 0;   // 0 = Resolution, 1 = Framerate, 2 = Screen Mode, 3 = Score Limit, 4 = Sound, 5 = Space, 6 = Ball, 7 = Paddle, 8 = Back
 };
 
 struct GameContext {
@@ -69,11 +72,12 @@ struct GameContext {
 Texture2D LoadTextureFromResource(int id);
 Sound LoadSoundFromResource(int id);
 void SetWindowIconFromResource(int id);
-
 // Forward declarations
 class Ball;
 class Paddle;
 class CpuPaddle;
+
+void ApplyPaddleTextures(const GameContext& ctx, Paddle& player, CpuPaddle& cpu);
 
 // Game state update and draw routines
 void ResetBall(Ball& ball);
@@ -121,6 +125,7 @@ public:
 
     bool Update() override;
     void Draw() override;
+    void ReloadTexture(int resourceId);
 };
 
 class Ball : public GameObject {
@@ -147,6 +152,7 @@ public:
 
     bool Update() override;
     void Draw() override;
+    void ReloadTexture(int resourceId);
 };
 
 class CpuPaddle : public Paddle {

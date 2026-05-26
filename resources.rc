@@ -1,15 +1,30 @@
 #include "include/resource.h"
 
-IDI_ICON1           ICON   "assets/icon.ico"
+IDI_ICON1              ICON   "assets/icon.ico"
 
-IDR_TEX_BASIC_SPACE RCDATA "assets/textures/spaces/basic_space.png"
-IDR_TEX_WALLS       RCDATA "assets/textures/spaces/walls.png"
-IDR_TEX_LINE        RCDATA "assets/textures/hud/line.png"
-IDR_TEX_BALL        RCDATA "assets/textures/ball/basic_ball_5.png"
-IDR_TEX_PADDLE      RCDATA "assets/textures/paddles/basic_paddle.png"
-IDR_TEX_PADDLE2     RCDATA "assets/textures/paddles/basic_paddle_2.png"
+// Backgrounds
+IDR_TEX_SPACE_DEFAULT  RCDATA "assets/textures/spaces/default_space.png"
+IDR_TEX_SPACE_GALAXY   RCDATA "assets/textures/spaces/galaxy_space.png"
+IDR_TEX_SPACE_TRAP     RCDATA "assets/textures/spaces/trap_space.png"
+IDR_TEX_WALLS          RCDATA "assets/textures/spaces/walls.png"
+IDR_TEX_LINE           RCDATA "assets/textures/hud/line.png"
 
-IDR_SND_PADDLE_HIT  RCDATA "assets/audio/paddle_hit.ogg"
-IDR_SND_WALL_HIT    RCDATA "assets/audio/wall_hit.ogg"
-IDR_SND_SCORE       RCDATA "assets/audio/score.ogg"
-IDR_SND_BANANA      RCDATA "assets/audio/banana_wall_hit.ogg"
+// Balls
+IDR_TEX_BALL_DEFAULT   RCDATA "assets/textures/ball/default_ball.png"
+IDR_TEX_BALL_BANANA    RCDATA "assets/textures/ball/banana_ball.png"
+IDR_TEX_BALL_BEACH     RCDATA "assets/textures/ball/beach_ball.png"
+IDR_TEX_BALL_CLOUDY    RCDATA "assets/textures/ball/cloudy__ball.png"
+IDR_TEX_BALL_SIMPLE    RCDATA "assets/textures/ball/simple_ball.png"
+
+// Paddles
+IDR_TEX_PADDLE_DEFAULT RCDATA "assets/textures/paddles/default_paddle.png"
+IDR_TEX_PADDLE_CLOUDY  RCDATA "assets/textures/paddles/cloudy_paddle.png"
+IDR_TEX_PADDLE_CPU     RCDATA "assets/textures/paddles/cpu_paddle.png"
+IDR_TEX_PADDLE_HUMAN   RCDATA "assets/textures/paddles/human_paddle.png"
+
+// Audio
+IDR_SND_PADDLE_HIT     RCDATA "assets/audio/paddle_hit.ogg"
+IDR_SND_WALL_HIT       RCDATA "assets/audio/wall_hit.ogg"
+IDR_SND_SCORE          RCDATA "assets/audio/score.ogg"
+IDR_SND_BANANA         RCDATA "assets/audio/banana_wall_hit.ogg"
+

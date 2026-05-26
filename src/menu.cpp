@@ -1,5 +1,6 @@
 #include "menu.h"
 #include "main.h"
+#include "resource.h"
 
 int Menu::Update() {
     // Menu navigation
@@ -64,15 +65,15 @@ void ApplyFramerate(int option) {
     }
 }
 
-void UpdateSettingsState(GameContext& ctx) {
+void UpdateSettingsState(GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle& cpu) {
     // Menu navigation
     if (IsKeyPressed(KEY_UP)) {
         ctx.config.selectedSettingLine--;
-        if (ctx.config.selectedSettingLine < 0) ctx.config.selectedSettingLine = 5;
+        if (ctx.config.selectedSettingLine < 0) ctx.config.selectedSettingLine = 8;
     }
     if (IsKeyPressed(KEY_DOWN)) {
         ctx.config.selectedSettingLine++;
-        if (ctx.config.selectedSettingLine > 5) ctx.config.selectedSettingLine = 0;
+        if (ctx.config.selectedSettingLine > 8) ctx.config.selectedSettingLine = 0;
     }
 
     // Settings adjustments (LEFT/RIGHT or ENTER)
@@ -125,6 +126,67 @@ void UpdateSettingsState(GameContext& ctx) {
         }
     }
     else if (ctx.config.selectedSettingLine == 5) {
+        bool changed = false;
+        if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_ENTER)) {
+            ctx.config.spaceThemeOption = (ctx.config.spaceThemeOption + 1) % 3;
+            changed = true;
+        }
+        else if (IsKeyPressed(KEY_LEFT)) {
+            ctx.config.spaceThemeOption = (ctx.config.spaceThemeOption - 1 + 3) % 3;
+            changed = true;
+        }
+        if (changed) {
+            int resId = IDR_TEX_SPACE_DEFAULT;
+            if (ctx.config.spaceThemeOption == 1) resId = IDR_TEX_SPACE_GALAXY;
+            else if (ctx.config.spaceThemeOption == 2) resId = IDR_TEX_SPACE_TRAP;
+
+            if (ctx.courtBackground.id > 0) {
+                UnloadTexture(ctx.courtBackground);
+            }
+            ctx.courtBackground = LoadTextureFromResource(resId);
+        }
+    }
+    else if (ctx.config.selectedSettingLine == 6) {
+        bool changed = false;
+        if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_ENTER)) {
+            ctx.config.ballThemeOption = (ctx.config.ballThemeOption + 1) % 5;
+            changed = true;
+        }
+        else if (IsKeyPressed(KEY_LEFT)) {
+            ctx.config.ballThemeOption = (ctx.config.ballThemeOption - 1 + 5) % 5;
+            changed = true;
+        }
+        if (changed) {
+            int resId = IDR_TEX_BALL_DEFAULT;
+            if (ctx.config.ballThemeOption == 1) resId = IDR_TEX_BALL_BANANA;
+            else if (ctx.config.ballThemeOption == 2) resId = IDR_TEX_BALL_BEACH;
+            else if (ctx.config.ballThemeOption == 3) resId = IDR_TEX_BALL_CLOUDY;
+            else if (ctx.config.ballThemeOption == 4) resId = IDR_TEX_BALL_SIMPLE;
+
+            ball.ReloadTexture(resId);
+        }
+    }
+    else if (ctx.config.selectedSettingLine == 7) {
+        bool changed = false;
+        if (IsKeyPressed(KEY_RIGHT) || IsKeyPressed(KEY_ENTER)) {
+            ctx.config.paddleThemeOption = (ctx.config.paddleThemeOption + 1) % 4;
+            changed = true;
+        }
+        else if (IsKeyPressed(KEY_LEFT)) {
+            ctx.config.paddleThemeOption = (ctx.config.paddleThemeOption - 1 + 4) % 4;
+            changed = true;
+        }
+        if (changed) {
+            int resId = IDR_TEX_PADDLE_DEFAULT;
+            if (ctx.config.paddleThemeOption == 1) resId = IDR_TEX_PADDLE_CLOUDY;
+            else if (ctx.config.paddleThemeOption == 2) resId = IDR_TEX_PADDLE_CPU;
+            else if (ctx.config.paddleThemeOption == 3) resId = IDR_TEX_PADDLE_HUMAN;
+
+            player.ReloadTexture(resId);
+            cpu.ReloadTexture(resId);
+        }
+    }
+    else if (ctx.config.selectedSettingLine == 8) {
         if (IsKeyPressed(KEY_ENTER)) {
             ctx.currentState = GameState::MainMenu;
         }
@@ -156,21 +218,45 @@ void DrawSettingsState(const GameContext& ctx, int screenWidth, int screenHeight
     if (ctx.config.sfxEnabled) sfxStr += "ON";
     else sfxStr += "OFF";
 
+    std::string spaceThemeStr = "Space Theme: ";
+    if (ctx.config.spaceThemeOption == 0) spaceThemeStr += "Default";
+    else if (ctx.config.spaceThemeOption == 1) spaceThemeStr += "Galaxy";
+    else if (ctx.config.spaceThemeOption == 2) spaceThemeStr += "Trap";
+
+    std::string ballThemeStr = "Ball Theme: ";
+    if (ctx.config.ballThemeOption == 0) ballThemeStr += "Default";
+    else if (ctx.config.ballThemeOption == 1) ballThemeStr += "Banana";
+    else if (ctx.config.ballThemeOption == 2) ballThemeStr += "Beach";
+    else if (ctx.config.ballThemeOption == 3) ballThemeStr += "Cloudy";
+    else if (ctx.config.ballThemeOption == 4) ballThemeStr += "Simple";
+
+    std::string paddleThemeStr = "Paddle Theme: ";
+    if (ctx.config.paddleThemeOption == 0) paddleThemeStr += "Default";
+    else if (ctx.config.paddleThemeOption == 1) paddleThemeStr += "Cloudy";
+    else if (ctx.config.paddleThemeOption == 2) paddleThemeStr += "CPU Style";
+    else if (ctx.config.paddleThemeOption == 3) paddleThemeStr += "Human Style";
+
     // Menu options highlighting and drawing
     Color resColor = (ctx.config.selectedSettingLine == 0) ? YELLOW : WHITE;
     Color fpsColor = (ctx.config.selectedSettingLine == 1) ? YELLOW : WHITE;
     Color modeColor = (ctx.config.selectedSettingLine == 2) ? YELLOW : WHITE;
     Color scoreColor = (ctx.config.selectedSettingLine == 3) ? YELLOW : WHITE;
     Color sfxColor = (ctx.config.selectedSettingLine == 4) ? YELLOW : WHITE;
-    Color backColor = (ctx.config.selectedSettingLine == 5) ? YELLOW : WHITE;
+    Color spaceColor = (ctx.config.selectedSettingLine == 5) ? YELLOW : WHITE;
+    Color ballColor = (ctx.config.selectedSettingLine == 6) ? YELLOW : WHITE;
+    Color paddleColor = (ctx.config.selectedSettingLine == 7) ? YELLOW : WHITE;
+    Color backColor = (ctx.config.selectedSettingLine == 8) ? YELLOW : WHITE;
 
-    int startY = screenHeight / 2 - 90;
+    int startY = screenHeight / 2 - 80;
     DrawText(resStr.c_str(), screenWidth / 2 - MeasureText(resStr.c_str(), 30) / 2, startY, 30, resColor);
-    DrawText(fpsStr.c_str(), screenWidth / 2 - MeasureText(fpsStr.c_str(), 30) / 2, startY + 45, 30, fpsColor);
-    DrawText(modeStr.c_str(), screenWidth / 2 - MeasureText(modeStr.c_str(), 30) / 2, startY + 90, 30, modeColor);
-    DrawText(scoreLimitStr.c_str(), screenWidth / 2 - MeasureText(scoreLimitStr.c_str(), 30) / 2, startY + 135, 30, scoreColor);
-    DrawText(sfxStr.c_str(), screenWidth / 2 - MeasureText(sfxStr.c_str(), 30) / 2, startY + 180, 30, sfxColor);
-    DrawText("Back", screenWidth / 2 - MeasureText("Back", 30) / 2, startY + 225, 30, backColor);
+    DrawText(fpsStr.c_str(), screenWidth / 2 - MeasureText(fpsStr.c_str(), 30) / 2, startY + 40, 30, fpsColor);
+    DrawText(modeStr.c_str(), screenWidth / 2 - MeasureText(modeStr.c_str(), 30) / 2, startY + 80, 30, modeColor);
+    DrawText(scoreLimitStr.c_str(), screenWidth / 2 - MeasureText(scoreLimitStr.c_str(), 30) / 2, startY + 120, 30, scoreColor);
+    DrawText(sfxStr.c_str(), screenWidth / 2 - MeasureText(sfxStr.c_str(), 30) / 2, startY + 160, 30, sfxColor);
+    DrawText(spaceThemeStr.c_str(), screenWidth / 2 - MeasureText(spaceThemeStr.c_str(), 30) / 2, startY + 200, 30, spaceColor);
+    DrawText(ballThemeStr.c_str(), screenWidth / 2 - MeasureText(ballThemeStr.c_str(), 30) / 2, startY + 240, 30, ballColor);
+    DrawText(paddleThemeStr.c_str(), screenWidth / 2 - MeasureText(paddleThemeStr.c_str(), 30) / 2, startY + 280, 30, paddleColor);
+    DrawText("Back", screenWidth / 2 - MeasureText("Back", 30) / 2, startY + 320, 30, backColor);
 
     int settingsHintWidth = MeasureText("UP/DOWN to navigate | LEFT/RIGHT to change settings | ENTER to select", 20);
     DrawText("UP/DOWN to navigate | LEFT/RIGHT to change settings | ENTER to select",

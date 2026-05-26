@@ -1,5 +1,6 @@
 #include "game.h"
 #include "main.h"
+#include "resource.h"
 
 // Paddle implementation
 bool Paddle::Update() {
@@ -41,6 +42,17 @@ void Paddle::Draw() {
     }
 }
 
+void Paddle::ReloadTexture(int resourceId) {
+    if (texture.id > 0) {
+        UnloadTexture(texture);
+    }
+    if (resourceId > 0) {
+        texture = LoadTextureFromResource(resourceId);
+    } else {
+        texture = { 0 };
+    }
+}
+
 
 // Ball implementation
 bool Ball::Update() {
@@ -67,6 +79,17 @@ void Ball::Draw() {
         );
     } else {
         DrawCircle((int)position.x, (int)position.y, radius, color);
+    }
+}
+
+void Ball::ReloadTexture(int resourceId) {
+    if (texture.id > 0) {
+        UnloadTexture(texture);
+    }
+    if (resourceId > 0) {
+        texture = LoadTextureFromResource(resourceId);
+    } else {
+        texture = { 0 };
     }
 }
 
@@ -360,4 +383,19 @@ void DrawGameOverState(const GameContext& ctx, int screenWidth, int screenHeight
 
     int instWidth = MeasureText("Press SPACEBAR to return to Main Menu", 20);
     DrawText("Press SPACEBAR to return to Main Menu", screenWidth / 2 - instWidth / 2, panelY + 340, 20, YELLOW);
+}
+
+void ApplyPaddleTextures(const GameContext& ctx, Paddle& player, CpuPaddle& cpu) {
+    int playerResId = IDR_TEX_PADDLE_DEFAULT;
+    if (ctx.config.paddleThemeOption == 1) playerResId = IDR_TEX_PADDLE_CLOUDY;
+    else if (ctx.config.paddleThemeOption == 2) playerResId = IDR_TEX_PADDLE_CPU;
+    else if (ctx.config.paddleThemeOption == 3) playerResId = IDR_TEX_PADDLE_HUMAN;
+
+    player.ReloadTexture(playerResId);
+
+    if (ctx.isMultiplayer) {
+        cpu.ReloadTexture(playerResId);
+    } else {
+        cpu.ReloadTexture(IDR_TEX_PADDLE_CPU);
+    }
 }

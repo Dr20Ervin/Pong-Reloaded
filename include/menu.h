@@ -1,4 +1,5 @@
 #pragma once
+
 #include "game.h" 
 #include <string>
 #include <vector>
@@ -22,7 +23,7 @@ public:
 // Settings and lobby routines
 void ApplyResolution(int width, int height);
 void ApplyFramerate(int option);
-void UpdateSettingsState(GameContext& ctx);
+void UpdateSettingsState(GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle& cpu);
 void DrawSettingsState(const GameContext& ctx, int screenWidth, int screenHeight);
 void UpdateLobbyState(GameContext& ctx);
 void DrawLobbyState(const GameContext& ctx, int screenWidth, int screenHeight);

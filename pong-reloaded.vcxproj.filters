@@ -22,6 +22,18 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Resource Files\textures\ball">
+      <UniqueIdentifier>{89cd7d41-de3f-4bd4-a3b4-c7aab8c5ffe9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\textures\hud">
+      <UniqueIdentifier>{3a7b2941-0560-4ab7-b8eb-255ef37bd3a4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\textures\paddles">
+      <UniqueIdentifier>{03e96034-55b9-4397-9f56-467d7c351e20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\textures\spaces">
+      <UniqueIdentifier>{5b322e46-cf19-4411-bcdd-5c3ca59fc236}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -61,26 +73,50 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="assets\textures\ball\basic_ball_5.png">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="assets\textures\hud\line.png">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="assets\textures\paddles\basic_paddle.png">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="assets\textures\paddles\basic_paddle_2.png">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="assets\textures\spaces\basic_space.png">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
-    <Image Include="assets\textures\spaces\walls.png">
-      <Filter>Resource Files\textures</Filter>
-    </Image>
     <Image Include="assets\icon.ico">
       <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\textures\ball\banana_ball.png">
+      <Filter>Resource Files\textures\ball</Filter>
+    </Image>
+    <Image Include="assets\textures\ball\beach_ball.png">
+      <Filter>Resource Files\textures\ball</Filter>
+    </Image>
+    <Image Include="assets\textures\ball\cloudy__ball.png">
+      <Filter>Resource Files\textures\ball</Filter>
+    </Image>
+    <Image Include="assets\textures\ball\default_ball.png">
+      <Filter>Resource Files\textures\ball</Filter>
+    </Image>
+    <Image Include="assets\textures\ball\simple_ball.png">
+      <Filter>Resource Files\textures\ball</Filter>
+    </Image>
+    <Image Include="assets\textures\hud\line.png">
+      <Filter>Resource Files\textures\hud</Filter>
+    </Image>
+    <Image Include="assets\textures\paddles\cloudy_paddle.png">
+      <Filter>Resource Files\textures\paddles</Filter>
+    </Image>
+    <Image Include="assets\textures\paddles\cpu_paddle.png">
+      <Filter>Resource Files\textures\paddles</Filter>
+    </Image>
+    <Image Include="assets\textures\paddles\default_paddle.png">
+      <Filter>Resource Files\textures\paddles</Filter>
+    </Image>
+    <Image Include="assets\textures\paddles\human_paddle.png">
+      <Filter>Resource Files\textures\paddles</Filter>
+    </Image>
+    <Image Include="assets\textures\spaces\walls.png">
+      <Filter>Resource Files\textures\spaces</Filter>
+    </Image>
+    <Image Include="assets\textures\spaces\default_space.png">
+      <Filter>Resource Files\textures\spaces</Filter>
+    </Image>
+    <Image Include="assets\textures\spaces\galaxy_space.png">
+      <Filter>Resource Files\textures\spaces</Filter>
+    </Image>
+    <Image Include="assets\textures\spaces\trap_space.png">
+      <Filter>Resource Files\textures\spaces</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>

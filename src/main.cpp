@@ -36,7 +36,7 @@ int main() {
     GameContext ctx;
 
     // Asset textures loading
-    ctx.courtBackground = LoadTextureFromResource(IDR_TEX_BASIC_SPACE);
+    ctx.courtBackground = LoadTextureFromResource(IDR_TEX_SPACE_DEFAULT);
     ctx.wallsTexture = LoadTextureFromResource(IDR_TEX_WALLS);
     ctx.lineTexture = LoadTextureFromResource(IDR_TEX_LINE);
 
@@ -49,21 +49,21 @@ int main() {
     Ball ball(
         Vector2{ screen_width / 2.0f, screen_height / 2.0f }, 
         Yellow, 20.0f, 
-        IDR_TEX_BALL
+        IDR_TEX_BALL_DEFAULT
     );
     ResetBall(ball);
 
     Paddle player(
         Vector2{ screen_width - 20.0f - 10.0f - 25.0f, screen_height / 2.0f - 60.0f },
         WHITE, 25.0f, 120.0f,
-        IDR_TEX_PADDLE
+        IDR_TEX_PADDLE_DEFAULT
     );
 
     CpuPaddle cpu(
         Vector2{ 20.0f + 10.0f, screen_height / 2.0f - 60.0f },
         WHITE, 25.0f, 120.0f,
         Difficulty::Normal,
-        IDR_TEX_PADDLE2
+        IDR_TEX_PADDLE_DEFAULT
     );
 
     // Menu instantiation
@@ -142,6 +142,7 @@ int main() {
                 ctx.isPaused = false;
                 ResetBall(ball);
                 ctx.currentState = GameState::Playing;
+                ApplyPaddleTextures(ctx, player, cpu);
             }
             else if (selected == 3) {
                 ctx.currentState = GameState::MainMenu;
@@ -149,13 +150,19 @@ int main() {
             break;
         }
         case GameState::MultiplayerLobby:
+        {
+            GameState oldState = ctx.currentState;
             UpdateLobbyState(ctx);
+            if (ctx.currentState == GameState::Multiplayer && oldState != GameState::Multiplayer) {
+                ApplyPaddleTextures(ctx, player, cpu);
+            }
             break;
+        }
         case GameState::Multiplayer:
             UpdateMultiplayerState(ctx, ball, player, cpu);
             break;
         case GameState::Settings:
-            UpdateSettingsState(ctx);
+            UpdateSettingsState(ctx, ball, player, cpu);
             break;
         case GameState::Playing:
             UpdatePlayingState(ctx, ball, player, cpu);
