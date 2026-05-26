@@ -24,12 +24,28 @@ void Menu::Draw() {
     int screenWidth = GetScreenWidth();
     int screenHeight = GetScreenHeight();
 
-    // Menu title and elements rendering
-    DrawText(title.c_str(), screenWidth / 2 - MeasureText(title.c_str(), 60) / 2, screenHeight / 4, 60, WHITE);
+    // Render Menu Title (aligned down for balanced spacing)
+    DrawText(title.c_str(), screenWidth / 2 - MeasureText(title.c_str(), 60) / 2, screenHeight / 4 + 20, 60, WHITE);
 
-    for (int i = 0; i < static_cast<int>(options.size()); i++) {
+    int numOptions = static_cast<int>(options.size());
+    int spacing = 60;
+    
+    // Isolate "Back" buttons at the bottom; group all other menu items in the center
+    bool separateLast = (!options.empty() && options.back() == "Back");
+    int groupCount = separateLast ? (numOptions - 1) : numOptions;
+    
+    // Center grouped options vertically
+    int startY = (screenHeight / 2) - (((groupCount - 1) * spacing) / 2);
+
+    for (int i = 0; i < numOptions; i++) {
         Color textColor = (i == selectedIndex) ? YELLOW : WHITE;
-        DrawText(options[i].c_str(), screenWidth / 2 - MeasureText(options[i].c_str(), 40) / 2, screenHeight / 2 + (i * 60), 40, textColor);
+        if (separateLast && i == numOptions - 1) {
+            // Render separated "Back" action button at the bottom of the screen
+            DrawText(options[i].c_str(), screenWidth / 2 - MeasureText(options[i].c_str(), 40) / 2, screenHeight - 120, 40, textColor);
+        } else {
+            // Render standard grouped options in the center
+            DrawText(options[i].c_str(), screenWidth / 2 - MeasureText(options[i].c_str(), 40) / 2, startY + (i * spacing), 40, textColor);
+        }
     }
 }
 
@@ -195,7 +211,7 @@ void UpdateSettingsState(GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle
 
 void DrawSettingsState(const GameContext& ctx, int screenWidth, int screenHeight) {
     int titleWidth = MeasureText("SETTINGS", 60);
-    DrawText("SETTINGS", screenWidth / 2 - titleWidth / 2, screenHeight / 4 - 40, 60, WHITE);
+    DrawText("SETTINGS", screenWidth / 2 - titleWidth / 2, screenHeight / 4 + 20, 60, WHITE);
 
     // Option labels formatting
     std::string resStr = "Resolution: ";
@@ -247,7 +263,8 @@ void DrawSettingsState(const GameContext& ctx, int screenWidth, int screenHeight
     Color paddleColor = (ctx.config.selectedSettingLine == 7) ? YELLOW : WHITE;
     Color backColor = (ctx.config.selectedSettingLine == 8) ? YELLOW : WHITE;
 
-    int startY = screenHeight / 2 - 80;
+    // Render settings toggles centered in the middle of the screen
+    int startY = 300;
     DrawText(resStr.c_str(), screenWidth / 2 - MeasureText(resStr.c_str(), 30) / 2, startY, 30, resColor);
     DrawText(fpsStr.c_str(), screenWidth / 2 - MeasureText(fpsStr.c_str(), 30) / 2, startY + 40, 30, fpsColor);
     DrawText(modeStr.c_str(), screenWidth / 2 - MeasureText(modeStr.c_str(), 30) / 2, startY + 80, 30, modeColor);
@@ -256,8 +273,11 @@ void DrawSettingsState(const GameContext& ctx, int screenWidth, int screenHeight
     DrawText(spaceThemeStr.c_str(), screenWidth / 2 - MeasureText(spaceThemeStr.c_str(), 30) / 2, startY + 200, 30, spaceColor);
     DrawText(ballThemeStr.c_str(), screenWidth / 2 - MeasureText(ballThemeStr.c_str(), 30) / 2, startY + 240, 30, ballColor);
     DrawText(paddleThemeStr.c_str(), screenWidth / 2 - MeasureText(paddleThemeStr.c_str(), 30) / 2, startY + 280, 30, paddleColor);
-    DrawText("Back", screenWidth / 2 - MeasureText("Back", 30) / 2, startY + 320, 30, backColor);
 
+    // Render separated "Back" action button at the bottom of the screen
+    DrawText("Back", screenWidth / 2 - MeasureText("Back", 30) / 2, screenHeight - 120, 30, backColor);
+
+    // Render bottom hint for settings controls
     int settingsHintWidth = MeasureText("UP/DOWN to navigate | LEFT/RIGHT to change settings | ENTER to select", 20);
     DrawText("UP/DOWN to navigate | LEFT/RIGHT to change settings | ENTER to select",
         screenWidth / 2 - settingsHintWidth / 2,

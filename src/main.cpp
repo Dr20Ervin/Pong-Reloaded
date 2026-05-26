@@ -3,13 +3,14 @@
 #include "menu.h"
 #include "resource.h"
 
-constexpr const char* gameVersion = "0.9.1";
+// Application Version Metadata
+constexpr const char* gameVersion = "1.0";
 
-// Define global colors
-Color Green = Color{ 38, 185, 154, 255 };
-Color Dark_Green = Color{ 20, 160, 133, 255 };
+// Global Theme Color Configurations
+Color Green       = Color{ 38, 185, 154, 255 };
+Color Dark_Green  = Color{ 20, 160, 133, 255 };
 Color Light_Green = Color{ 129, 204, 184, 255 };
-Color Yellow = Color{ 243, 213, 91, 255 };
+Color Yellow      = Color{ 243, 213, 91, 255 };
 
 std::vector<std::string> logHistory;
 std::mutex logMutex;
@@ -184,10 +185,14 @@ int main() {
         case GameState::MainMenu:
         {
             mainMenu.Draw();
+            
+            // Render navigation controls hint
             int menuHintWidth = MeasureText("Use UP/DOWN to navigate | ENTER to select", 20);
             DrawText("Use UP/DOWN to navigate | ENTER to select",
                 screen_width / 2 - menuHintWidth / 2,
                 screen_height - 80, 20, WHITE);
+            
+            // Render version string in bottom-left corner
             DrawText(TextFormat("v%s", gameVersion), 20, screen_height - 40, 20, LIGHTGRAY);
             break;
         }
