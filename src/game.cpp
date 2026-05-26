@@ -112,6 +112,13 @@ void DrawCourt(const GameContext& ctx, int screenWidth, int screenHeight) {
         lineY += ctx.lineTexture.height;
     }
 
+    // Solid background for walls to prevent transparent edge bleeding
+    Color wallBg = Color{ 72, 85, 107, 255 };
+    DrawRectangle(0, 0, screenWidth, 20, wallBg);
+    DrawRectangle(0, screenHeight - 20, screenWidth, 20, wallBg);
+    DrawRectangle(0, 0, 20, screenHeight, wallBg);
+    DrawRectangle(screenWidth - 20, 0, 20, screenHeight, wallBg);
+
     // Border walls (top, bottom, left, right)
     DrawTexturePro(ctx.wallsTexture, Rectangle{ 0.0f, 0.0f, (float)ctx.wallsTexture.width, (float)ctx.wallsTexture.height }, Rectangle{ 0.0f, 0.0f, (float)screenWidth, 20.0f }, Vector2{ 0.0f, 0.0f }, 0.0f, WHITE);
     DrawTexturePro(ctx.wallsTexture, Rectangle{ 0.0f, 0.0f, (float)ctx.wallsTexture.width, (float)ctx.wallsTexture.height }, Rectangle{ 0.0f, (float)screenHeight - 20.0f, (float)screenWidth, 20.0f }, Vector2{ 0.0f, 0.0f }, 0.0f, WHITE);
@@ -167,7 +174,7 @@ void UpdatePlayingState(GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle&
             }
         }
     }
-}
+} 
 
 void DrawPlayingState(const GameContext& ctx, Ball& ball, Paddle& player, CpuPaddle& cpu, int screenWidth, int screenHeight) {
     DrawCourt(ctx, screenWidth, screenHeight);
@@ -238,7 +245,7 @@ void UpdateMultiplayerState(GameContext& ctx, Ball& ball, Paddle& player, CpuPad
 
         // Scoring rules
         int screen_width = GetScreenWidth();
-        if (ball.position.x + ball.radius >= screen_width - 20.0f) {
+        if (ball.position.x + ball.radius >= screen_width - 30.0f) {
             ctx.score.player2_score++;
             if (ctx.config.sfxEnabled) PlaySound(ctx.scoreSound);
             if (ctx.score.player2_score >= ctx.config.maxScore) {

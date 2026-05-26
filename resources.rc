@@ -1,0 +1,15 @@
+#include "include/resource.h"
+
+IDI_ICON1           ICON   "icon.ico"
+
+IDR_TEX_BASIC_SPACE RCDATA "assets/textures/spaces/basic_space.png"
+IDR_TEX_WALLS       RCDATA "assets/textures/spaces/walls.png"
+IDR_TEX_LINE        RCDATA "assets/textures/hud/line.png"
+IDR_TEX_BALL        RCDATA "assets/textures/ball/basic_ball_5.png"
+IDR_TEX_PADDLE      RCDATA "assets/textures/paddles/basic_paddle.png"
+IDR_TEX_PADDLE2     RCDATA "assets/textures/paddles/basic_paddle_2.png"
+
+IDR_SND_PADDLE_HIT  RCDATA "assets/audio/paddle_hit.ogg"
+IDR_SND_WALL_HIT    RCDATA "assets/audio/wall_hit.ogg"
+IDR_SND_SCORE       RCDATA "assets/audio/score.ogg"
+IDR_SND_BANANA      RCDATA "assets/audio/banana_wall_hit.ogg"

@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClCompile Include="src\game.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\resource_loader.cpp" />
     <ClCompile Include="src\menu.cpp">
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(ProjectDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(ProjectDir)/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
@@ -143,7 +144,11 @@
     <ClInclude Include="include\menu.h" />
     <ClInclude Include="include\raylib.h" />
     <ClInclude Include="include\raymath.h" />
+    <ClInclude Include="include\resource.h" />
     <ClInclude Include="include\rlgl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="resources.rc" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\ball\basic_ball_5.png" />
@@ -152,6 +157,8 @@
     <Image Include="assets\textures\paddles\basic_paddle_2.png" />
     <Image Include="assets\textures\spaces\basic_space.png" />
     <Image Include="assets\textures\spaces\walls.png" />
+    <Image Include="icon.ico" />
+    <Image Include="icon.jpg" />
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\audio\banana_wall_hit.ogg" />

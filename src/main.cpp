@@ -1,6 +1,7 @@
 #include <iostream>
 #include "game.h"
 #include "menu.h"
+#include "resource.h"
 
 // Global colors
 Color Green = Color{ 38, 185, 154, 255 };
@@ -21,34 +22,34 @@ int main() {
     GameContext ctx;
 
     // Asset textures loading
-    ctx.courtBackground = LoadTexture("assets/textures/spaces/basic_space.png");
-    ctx.wallsTexture = LoadTexture("assets/textures/spaces/walls.png");
-    ctx.lineTexture = LoadTexture("assets/textures/hud/line.png");
+    ctx.courtBackground = LoadTextureFromResource(IDR_TEX_BASIC_SPACE);
+    ctx.wallsTexture = LoadTextureFromResource(IDR_TEX_WALLS);
+    ctx.lineTexture = LoadTextureFromResource(IDR_TEX_LINE);
 
     // Audio assets loading
-    ctx.paddleHitSound = LoadSound("assets/audio/paddle_hit.ogg");
-    ctx.wallHitSound = LoadSound("assets/audio/wall_hit.ogg");
-    ctx.scoreSound = LoadSound("assets/audio/score.ogg");
+    ctx.paddleHitSound = LoadSoundFromResource(IDR_SND_PADDLE_HIT);
+    ctx.wallHitSound = LoadSoundFromResource(IDR_SND_WALL_HIT);
+    ctx.scoreSound = LoadSoundFromResource(IDR_SND_SCORE);
 
     // Entities instantiation
     Ball ball(
         Vector2{ screen_width / 2.0f, screen_height / 2.0f }, 
         Yellow, 20.0f, 
-        "assets/textures/ball/basic_ball_5.png"
+        IDR_TEX_BALL
     );
     ResetBall(ball);
 
     Paddle player(
         Vector2{ screen_width - 20.0f - 10.0f - 25.0f, screen_height / 2.0f - 60.0f },
         WHITE, 25.0f, 120.0f,
-        "assets/textures/paddles/basic_paddle.png"
+        IDR_TEX_PADDLE
     );
 
     CpuPaddle cpu(
         Vector2{ 20.0f + 10.0f, screen_height / 2.0f - 60.0f },
         WHITE, 25.0f, 120.0f,
         Difficulty::Normal,
-        "assets/textures/paddles/basic_paddle_2.png"
+        IDR_TEX_PADDLE2
     );
 
     // Menu instantiation

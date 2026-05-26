@@ -65,6 +65,10 @@ struct GameContext {
     Sound scoreSound = { 0 };
 };
 
+// Asset loading helpers
+Texture2D LoadTextureFromResource(int id);
+Sound LoadSoundFromResource(int id);
+
 // Forward declarations
 class Ball;
 class Paddle;
@@ -99,10 +103,10 @@ public:
     float width;
     float height;
     Texture2D texture;
-    Paddle(Vector2 pos, Color c, float w, float h, const std::string& texturePath = "")
+    Paddle(Vector2 pos, Color c, float w, float h, int textureId = 0)
         : GameObject(pos, c), width(w), height(h) {
-        if (!texturePath.empty()) {
-            texture = LoadTexture(texturePath.c_str());
+        if (textureId > 0) {
+            texture = LoadTextureFromResource(textureId);
         } else {
             texture = { 0 };
         }
@@ -125,10 +129,10 @@ public:
     Texture2D texture;
 
 public:
-    Ball(Vector2 pos, Color c, float r, const std::string& texturePath = "")
+    Ball(Vector2 pos, Color c, float r, int textureId = 0)
         : GameObject(pos, c), radius(r), velocity({ 5.0f, 5.0f }) {
-        if (!texturePath.empty()) {
-            texture = LoadTexture(texturePath.c_str());
+        if (textureId > 0) {
+            texture = LoadTextureFromResource(textureId);
         } else {
             texture = { 0 };
         }
@@ -150,8 +154,8 @@ private:
     Difficulty currentDifficulty;
 
 public:
-    CpuPaddle(Vector2 pos, Color c, float w, float h, Difficulty diff = Difficulty::Normal, const std::string& texturePath = "")
-        : Paddle(pos, c, w, h, texturePath) {
+    CpuPaddle(Vector2 pos, Color c, float w, float h, Difficulty diff = Difficulty::Normal, int textureId = 0)
+        : Paddle(pos, c, w, h, textureId) {
         SetDifficulty(diff);
     }
 
