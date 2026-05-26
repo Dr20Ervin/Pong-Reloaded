@@ -1,4 +1,5 @@
 #include "game.h"
+#include "main.h"
 
 // Paddle implementation
 bool Paddle::Update() {
@@ -321,7 +322,7 @@ void DrawGameOverState(const GameContext& ctx, int screenWidth, int screenHeight
     if (ctx.isMultiplayer) {
         if (ctx.score.player_score > ctx.score.player2_score) {
             winnerText = "PLAYER 1 WINS!";
-            winnerColor = Color{ 38, 185, 154, 255 };
+            winnerColor = Green;
         }
         else if (ctx.score.player2_score > ctx.score.player_score) {
             winnerText = "PLAYER 2 WINS!";
@@ -333,7 +334,7 @@ void DrawGameOverState(const GameContext& ctx, int screenWidth, int screenHeight
     else {
         if (ctx.score.player_score > ctx.score.cpu_score) {
             winnerText = "YOU WIN!";
-            winnerColor = Color{ 38, 185, 154, 255 };
+            winnerColor = Green;
         }
         else if (ctx.score.cpu_score > ctx.score.player_score) {
             winnerText = "CPU WINS!";

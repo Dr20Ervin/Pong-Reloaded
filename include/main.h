@@ -7,15 +7,15 @@
 #include <cstdarg>
 #include <raylib.h>
 
-
 // Global colors
-Color Green = Color{ 38, 185, 154, 255 };
-Color Dark_Green = Color{ 20, 160, 133, 255 };
-Color Light_Green = Color{ 129, 204, 184, 255 };
-Color Yellow = Color{ 243, 213, 91, 255 };
+extern Color Green;
+extern Color Dark_Green;
+extern Color Light_Green;
+extern Color Yellow;
 
-// DevLog buffering & function prototype
-std::vector<std::string> logHistory;
-std::mutex logMutex;
+// DevLog buffering & global variables
+extern std::vector<std::string> logHistory;
+extern std::mutex logMutex;
+extern bool isConsoleVisible;
 
 void CustomLogCallback(int logLevel, const char* text, va_list args);

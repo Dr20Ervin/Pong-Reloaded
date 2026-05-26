@@ -1,4 +1,5 @@
 #include "menu.h"
+#include "main.h"
 
 int Menu::Update() {
     // Menu navigation
@@ -219,7 +220,7 @@ void DrawLobbyState(const GameContext& ctx, int screenWidth, int screenHeight) {
     DrawText("Press 'W' to toggle ready", p1X, p1Y + 75, 18, GRAY);
     
     if (ctx.p1Ready) {
-        DrawRectangle(p1X, p1Y + 115, 220, 50, GREEN);
+        DrawRectangle(p1X, p1Y + 115, 220, 50, Green);
         DrawText("READY", p1X + 110 - MeasureText("READY", 20)/2, p1Y + 130, 20, BLACK);
     } else {
         DrawRectangle(p1X, p1Y + 115, 220, 50, RED);
@@ -234,7 +235,7 @@ void DrawLobbyState(const GameContext& ctx, int screenWidth, int screenHeight) {
     DrawText("Press 'UP' to toggle ready", p2X, p2Y + 75, 18, GRAY);
     
     if (ctx.p2Ready) {
-        DrawRectangle(p2X, p2Y + 115, 220, 50, GREEN);
+        DrawRectangle(p2X, p2Y + 115, 220, 50, Green);
         DrawText("READY", p2X + 110 - MeasureText("READY", 20)/2, p2Y + 130, 20, BLACK);
     } else {
         DrawRectangle(p2X, p2Y + 115, 220, 50, RED);

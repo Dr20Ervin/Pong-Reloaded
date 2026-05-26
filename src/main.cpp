@@ -3,13 +3,22 @@
 #include "menu.h"
 #include "resource.h"
 
+// Define global variables
+Color Green = Color{ 38, 185, 154, 255 };
+Color Dark_Green = Color{ 20, 160, 133, 255 };
+Color Light_Green = Color{ 129, 204, 184, 255 };
+Color Yellow = Color{ 243, 213, 91, 255 };
+
+std::vector<std::string> logHistory;
+std::mutex logMutex;
+bool isConsoleVisible = false;
+
 #ifdef _WIN32
 #pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
 extern "C" {
     int __stdcall AllocConsole();
     int __stdcall FreeConsole();
 }
-bool isConsoleVisible = false;
 #endif
 
 int main() {
