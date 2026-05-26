@@ -50,3 +50,14 @@ Sound LoadSoundFromResource(int id) {
     UnloadWave(wave);
     return sound;
 }
+
+void SetWindowIconFromResource(int id) {
+    HWND hwnd = (HWND)GetWindowHandle();
+    if (!hwnd) return;
+    
+    HICON hIcon = LoadIconA(GetModuleHandle(NULL), MAKEINTRESOURCEA(id));
+    if (hIcon) {
+        SendMessageA(hwnd, WM_SETICON, ICON_BIG, (LPARAM)hIcon);
+        SendMessageA(hwnd, WM_SETICON, ICON_SMALL, (LPARAM)hIcon);
+    }
+}

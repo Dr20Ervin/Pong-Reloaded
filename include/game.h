@@ -68,6 +68,7 @@ struct GameContext {
 // Asset loading helpers
 Texture2D LoadTextureFromResource(int id);
 Sound LoadSoundFromResource(int id);
+void SetWindowIconFromResource(int id);
 
 // Forward declarations
 class Ball;

@@ -79,10 +79,7 @@
     <Image Include="assets\textures\spaces\walls.png">
       <Filter>Resource Files\textures</Filter>
     </Image>
-    <Image Include="icon.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="icon.jpg">
+    <Image Include="assets\icon.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

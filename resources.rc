@@ -1,6 +1,6 @@
 #include "include/resource.h"
 
-IDI_ICON1           ICON   "icon.ico"
+IDI_ICON1           ICON   "assets/icon.ico"
 
 IDR_TEX_BASIC_SPACE RCDATA "assets/textures/spaces/basic_space.png"
 IDR_TEX_WALLS       RCDATA "assets/textures/spaces/walls.png"

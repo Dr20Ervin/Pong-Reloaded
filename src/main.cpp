@@ -19,6 +19,7 @@ int main() {
 
     SetTraceLogCallback(CustomLogCallback);
     InitWindow(screen_width, screen_height, "Pong Reloaded");
+    SetWindowIconFromResource(IDI_ICON1);
     SetTargetFPS(60);
     InitAudioDevice();
 
