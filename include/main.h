@@ -1,10 +1,8 @@
 #pragma once
 #include <iostream>
-#include <cstdio>
 #include <vector>
 #include <string>
 #include <mutex>
-#include <cstdarg>
 #include <raylib.h>
 
 // Global colors
