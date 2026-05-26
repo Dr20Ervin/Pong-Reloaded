@@ -1,7 +1,16 @@
 #include <iostream>
+#include <cstdio>
 #include "game.h"
 #include "menu.h"
 #include "resource.h"
+
+#ifdef _WIN32
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+extern "C" {
+    int __stdcall AllocConsole();
+    int __stdcall FreeConsole();
+}
+#endif
 
 // Global colors
 Color Green = Color{ 38, 185, 154, 255 };
@@ -13,6 +22,10 @@ int main() {
     std::cout << "Starting game session" << std::endl;
     int screen_width = 1280;
     int screen_height = 800;
+
+#ifdef _WIN32
+    bool isConsoleVisible = false;
+#endif
     
     InitWindow(screen_width, screen_height, "Pong Reloaded");
     SetTargetFPS(60);
@@ -60,6 +73,20 @@ int main() {
     while (WindowShouldClose() == false && !ctx.shouldQuit) {
         screen_width = GetScreenWidth();
         screen_height = GetScreenHeight();
+
+#ifdef _WIN32
+        if (IsKeyPressed(KEY_F7)) {
+            isConsoleVisible = !isConsoleVisible;
+            if (isConsoleVisible) {
+                AllocConsole();
+                FILE* dummy;
+                freopen_s(&dummy, "CONOUT$", "w", stdout);
+                freopen_s(&dummy, "CONOUT$", "w", stderr);
+            } else {
+                FreeConsole();
+            }
+        }
+#endif
 
         // Update loop
         switch (ctx.currentState) {
