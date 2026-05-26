@@ -141,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\game.h" />
+    <ClInclude Include="include\main.h" />
     <ClInclude Include="include\menu.h" />
     <ClInclude Include="include\raylib.h" />
     <ClInclude Include="include\raymath.h" />

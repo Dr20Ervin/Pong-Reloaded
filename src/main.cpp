@@ -1,5 +1,4 @@
-#include <iostream>
-#include <cstdio>
+#include "main.h"
 #include "game.h"
 #include "menu.h"
 #include "resource.h"
@@ -10,23 +9,15 @@ extern "C" {
     int __stdcall AllocConsole();
     int __stdcall FreeConsole();
 }
+bool isConsoleVisible = false;
 #endif
-
-// Global colors
-Color Green = Color{ 38, 185, 154, 255 };
-Color Dark_Green = Color{ 20, 160, 133, 255 };
-Color Light_Green = Color{ 129, 204, 184, 255 };
-Color Yellow = Color{ 243, 213, 91, 255 };
 
 int main() {
     std::cout << "Starting game session" << std::endl;
     int screen_width = 1280;
     int screen_height = 800;
 
-#ifdef _WIN32
-    bool isConsoleVisible = false;
-#endif
-    
+    SetTraceLogCallback(CustomLogCallback);
     InitWindow(screen_width, screen_height, "Pong Reloaded");
     SetTargetFPS(60);
     InitAudioDevice();
@@ -82,6 +73,12 @@ int main() {
                 FILE* dummy;
                 freopen_s(&dummy, "CONOUT$", "w", stdout);
                 freopen_s(&dummy, "CONOUT$", "w", stderr);
+                
+                // Dump history
+                std::lock_guard<std::mutex> lock(logMutex);
+                for (const auto& log : logHistory) {
+                    printf("%s", log.c_str());
+                }
             } else {
                 FreeConsole();
             }
@@ -94,10 +91,12 @@ int main() {
         {
             int selected = mainMenu.Update();
             if (selected == 0) {
+                TraceLog(LOG_INFO, "State Transition: MainMenu -> DifficultySelect (Singleplayer)");
                 ctx.isMultiplayer = false;
                 ctx.currentState = GameState::DifficultySelect;
             }
             else if (selected == 1) {
+                TraceLog(LOG_INFO, "State Transition: MainMenu -> MultiplayerLobby");
                 ctx.isMultiplayer = true;
                 ctx.score.player_score = 0;
                 ctx.score.player2_score = 0;
@@ -121,10 +120,11 @@ int main() {
         {
             int selected = difficultyMenu.Update();
             if (selected >= 0 && selected <= 2) {
-                if (selected == 0) cpu.SetDifficulty(Difficulty::Easy);
-                else if (selected == 1) cpu.SetDifficulty(Difficulty::Normal);
-                else if (selected == 2) cpu.SetDifficulty(Difficulty::Hard);
+                if (selected == 0) { cpu.SetDifficulty(Difficulty::Easy); TraceLog(LOG_INFO, "CPU Difficulty set to: EASY"); }
+                else if (selected == 1) { cpu.SetDifficulty(Difficulty::Normal); TraceLog(LOG_INFO, "CPU Difficulty set to: NORMAL"); }
+                else if (selected == 2) { cpu.SetDifficulty(Difficulty::Hard); TraceLog(LOG_INFO, "CPU Difficulty set to: HARD"); }
 
+                TraceLog(LOG_INFO, "State Transition: DifficultySelect -> Playing");
                 ctx.score.player_score = 0;
                 ctx.score.player2_score = 0;
                 ctx.score.cpu_score = 0;
@@ -213,4 +213,33 @@ int main() {
     CloseAudioDevice();
     CloseWindow();
     return 0;
+}
+
+void CustomLogCallback(int logLevel, const char* text, va_list args) {
+    char buffer[1024];
+    vsnprintf(buffer, sizeof(buffer), text, args);
+
+    std::string logStr;
+    switch (logLevel) {
+    case LOG_TRACE:   logStr = "TRACE: "; break;
+    case LOG_DEBUG:   logStr = "DEBUG: "; break;
+    case LOG_INFO:    logStr = "INFO: "; break;
+    case LOG_WARNING: logStr = "WARNING: "; break;
+    case LOG_ERROR:   logStr = "ERROR: "; break;
+    case LOG_FATAL:   logStr = "FATAL: "; break;
+    default:          logStr = "LOG: "; break;
+    }
+    logStr += buffer;
+    logStr += "\n";
+
+    std::lock_guard<std::mutex> lock(logMutex);
+    logHistory.push_back(logStr);
+
+#ifdef _WIN32
+    if (isConsoleVisible) {
+        printf("%s", logStr.c_str());
+    }
+#else
+    printf("%s", logStr.c_str());
+#endif
 }

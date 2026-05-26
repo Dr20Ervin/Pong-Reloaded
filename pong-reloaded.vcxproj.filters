@@ -56,6 +56,9 @@
     <ClInclude Include="include\resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\main.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="assets\textures\ball\basic_ball_5.png">
