@@ -3,7 +3,9 @@
 #include "menu.h"
 #include "resource.h"
 
-// Define global variables
+constexpr const char* gameVersion = "0.9.1";
+
+// Define global colors
 Color Green = Color{ 38, 185, 154, 255 };
 Color Dark_Green = Color{ 20, 160, 133, 255 };
 Color Light_Green = Color{ 129, 204, 184, 255 };
@@ -186,6 +188,7 @@ int main() {
             DrawText("Use UP/DOWN to navigate | ENTER to select",
                 screen_width / 2 - menuHintWidth / 2,
                 screen_height - 80, 20, WHITE);
+            DrawText(TextFormat("v%s", gameVersion), 20, screen_height - 40, 20, LIGHTGRAY);
             break;
         }
         case GameState::DifficultySelect:
