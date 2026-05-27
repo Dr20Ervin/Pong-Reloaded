@@ -3,7 +3,7 @@
 A classic arcade game rebuilt from the ground up using **Modern C++ (C++20)** and the **Raylib** library. Designed with performance, customization, and modularity in mind.
 
 [![C++ Version](https://img.shields.io/badge/Language-C%2B%2B20-blue?logo=c%2B%2B&style=flat-square)](https://en.cppreference.com/w/cpp/compiler_support/20)
-[![Raylib](https://img.shields.io/badge/Framework-Raylib--5.0-red?style=flat-square)](https://www.raylib.com/)
+[![Raylib](https://img.shields.io/badge/Framework-Raylib--6.0-red?style=flat-square)](https://www.raylib.com/)
 [![Platform](https://img.shields.io/badge/Platform-Windows-0078d7?logo=windows&style=flat-square)](https://www.microsoft.com/windows)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE.txt)
 
