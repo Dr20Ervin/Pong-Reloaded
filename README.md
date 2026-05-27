@@ -1,11 +1,19 @@
-# 🏓 Pong Reloaded
+<p align="center">
+  <img src="icon.svg" alt="Pong Reloaded Logo" width="128" height="128" />
+</p>
 
-A classic arcade game rebuilt from the ground up using **Modern C++ (C++20)** and the **Raylib** library. Designed with performance, customization, and modularity in mind.
+<h1 align="center">🏓 Pong Reloaded</h1>
 
-[![C++ Version](https://img.shields.io/badge/Language-C%2B%2B20-blue?logo=c%2B%2B&style=flat-square)](https://en.cppreference.com/w/cpp/compiler_support/20)
-[![Raylib](https://img.shields.io/badge/Framework-Raylib--6.0-red?style=flat-square)](https://www.raylib.com/)
-[![Platform](https://img.shields.io/badge/Platform-Windows-0078d7?logo=windows&style=flat-square)](https://www.microsoft.com/windows)
-[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE.txt)
+<p align="center">
+  A classic arcade game rebuilt from the ground up using <strong>Modern C++ (C++20)</strong> and the <strong>Raylib</strong> library. Designed with performance, customization, and modularity in mind.
+</p>
+
+<p align="center">
+  <a href="https://en.cppreference.com/w/cpp/compiler_support/20"><img src="https://img.shields.io/badge/Language-C%2B%2B20-blue?logo=c%2B%2B&style=flat-square" alt="C++ Version" /></a>
+  <a href="https://www.raylib.com/"><img src="https://img.shields.io/badge/Framework-Raylib--5.0-red?style=flat-square" alt="Raylib" /></a>
+  <a href="https://www.microsoft.com/windows"><img src="https://img.shields.io/badge/Platform-Windows-0078d7?logo=windows&style=flat-square" alt="Platform" /></a>
+  <a href="LICENSE.txt"><img src="https://img.shields.io/badge/License-MIT-green?style=flat-square" alt="License" /></a>
+</p>
 
 ---
 
@@ -35,6 +43,18 @@ The key goals of this project:
   * **Score Limits:** Custom thresholds (5, 11, 15, or 21 points).
   * **Visual Themes:** Toggleable background space themes (Default, Galaxy, Trap), custom ball skins, and paddle textures.
 * **🛠️ Developer Console:** Built-in console overlay toggled dynamically via `F7` for real-time engine tracing and logging.
+
+---
+
+## 📐 Architecture & System Design
+
+To ensure modularity, high performance, and clear separation of concerns, **Pong Reloaded** is built around a decoupled Object-Oriented design. 
+
+Below is the UML class diagram outlining the relationships between the game entities, screen controllers, state management, and resource loaders:
+
+<p align="center">
+  <img src="UML.svg" alt="Pong Reloaded UML Diagram" width="100%" />
+</p>
 
 ---
 
